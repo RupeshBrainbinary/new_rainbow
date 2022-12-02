@@ -11,7 +11,7 @@ import 'package:readmore/readmore.dart';
 
 HomeController homeController = Get.find();
 
-Widget adInLatestFeed({int? index}) {
+Widget adInLatestFeed({int? index, context}) {
   return Padding(
     padding: const EdgeInsets.only(right: 5),
     child: Container(
@@ -64,14 +64,25 @@ Widget adInLatestFeed({int? index}) {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      homeController.advertisementListUserModel.data?[index!]
-                              .userDetails?.fullName
-                              .toString() ??
-                          "",
-                      style: gilroyBoldTextStyle(
-                          fontSize: 16, color: ColorRes.black),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.5,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text(
+                              homeController.advertisementListUserModel.data?[index!]
+                                  .userDetails?.fullName
+                                  .toString() ??
+                                  "",
+                              style: gilroyBoldTextStyle(
+                                  fontSize: 16, color: ColorRes.black),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
+
                     const SizedBox(
                       height: 3,
                     ),

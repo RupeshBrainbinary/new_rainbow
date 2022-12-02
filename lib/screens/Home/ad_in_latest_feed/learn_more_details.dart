@@ -100,14 +100,25 @@ class LearnMoreDetails extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            homeController.advertisementListUserModel
-                                    .data?[index!].userDetails?.fullName
-                                    .toString() ??
-                                "",
-                            style: gilroyBoldTextStyle(
-                                fontSize: 16, color: ColorRes.black),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.4,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    homeController.advertisementListUserModel.data?[index!]
+                                        .userDetails?.fullName
+                                        .toString() ??
+                                        "",
+                                    style: gilroyBoldTextStyle(
+                                        fontSize: 16, color: ColorRes.black),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
+
                           const SizedBox(
                             height: 3,
                           ),

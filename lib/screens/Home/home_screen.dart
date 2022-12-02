@@ -954,7 +954,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemCount: controller
                                       .advertisementListUserModel.data?.length,
                                   itemBuilder: (context, index) {
-                                    return adInLatestFeed(index: index);
+                                    return adInLatestFeed(index: index, context: context);
                                   }),
                             ),
                           ),
@@ -1567,7 +1567,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .data
                                           ?.length,
                                       itemBuilder: (context, index) {
-                                        return adInLatestFeed(index: index);
+                                        return adInLatestFeed(index: index, context: context);
                                       }),
                                 ),
                               )

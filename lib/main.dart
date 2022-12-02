@@ -16,13 +16,31 @@ import 'package:rainbow_new/service/notification_service.dart';
 import 'package:rainbow_new/service/pref_services.dart';
 import 'package:rainbow_new/utils/color_res.dart';
 import 'package:rainbow_new/utils/pref_keys.dart';
+import 'dart:io' show Platform;
 
 
 import 'screens/auth/register/widget/registerVerify_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyAHDoEBaS6zAHsNvEIvUnQI42mP6_rF10s',
+        authDomain: '',
+        databaseURL: '',
+        projectId: 'rainbow-99314',
+        storageBucket: '',
+        messagingSenderId: '115304537008',
+        appId: '1:115304537008:android:b1eb09b75b877ed5789475',
+        measurementId: '',
+      ),
+    );
+  } else if (Platform.isIOS) {
+    await Firebase.initializeApp();
+  }
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
