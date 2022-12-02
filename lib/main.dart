@@ -1,0 +1,89 @@
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:rainbow_new/screens/advertisement/ad_dashboard/ad_dashboard.dart';
+import 'package:rainbow_new/screens/auth/auth_dashboard/auth_dashboard.dart';
+import 'package:rainbow_new/screens/auth/register/widget/RegisterVerifyOtp_Screen.dart';
+import 'package:rainbow_new/screens/dashboard/dash_board.dart';
+import 'package:rainbow_new/screens/scanyour_face/scanyourface_controller.dart';
+import 'package:rainbow_new/screens/splash/splash_screen.dart';
+import 'package:rainbow_new/screens/terms_conditions/terms_conditions_screen.dart';
+import 'package:rainbow_new/service/notification_service.dart';
+import 'package:rainbow_new/service/pref_services.dart';
+import 'package:rainbow_new/utils/color_res.dart';
+import 'package:rainbow_new/utils/pref_keys.dart';
+
+
+import 'screens/auth/register/widget/registerVerify_controller.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  NotificationService.init();
+  await FirebaseMessaging.instance.getToken().then((value) {
+    if (kDebugMode) {
+      print("FCM Token => $value");
+    }
+  });
+  await PrefService.init();
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: ColorRes.color_4F359B
+          .withOpacity(0.3), //or set color with: Color(0xFF0000FF)
+    ),
+  );
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Get.lazyPut<ScanYourFaceController>(() => ScanYourFaceController());
+    return GetMaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primaryColor: ColorRes.themeColor,
+        colorScheme: const ColorScheme.dark().copyWith(
+          primary: ColorRes.themeColor,
+          secondary: ColorRes.themeColor,
+        ),
+      ),
+      debugShowCheckedModeBanner: false,
+      getPages: [
+        GetPage(
+            name: "/RegisterOtpScreen",
+            page: () => const RegisterOtpScreen(),
+            binding: BindingsBuilder(() => RegisterVerifyController())
+        ),
+
+      ],
+      // home: ScanYourFaceScreen(),
+      home: /*const GoogleMapScreen()*/ /*SupportDetailsScreen(com: "")*/ !PrefService
+              .getBool(PrefKeys.skipBoardingScreen)
+          ? SplashScreen()
+          : (PrefService.getBool(PrefKeys.register) ||
+                  PrefService.getBool(PrefKeys.isLogin))
+              ? PrefService.getBool(PrefKeys.showTermsCondition)
+                  ? TermsConditionsScreen(showBackBtn: false)
+                  : PrefService.getString(PrefKeys.loginRole) == "end_user"
+                      ? const Dashboard()
+                      : PrefService.getString(PrefKeys.loginRole) ==
+                              "advertisers"
+                          ? AdvertisementDashBord()
+                          : PrefService.getBool(PrefKeys.isLogin)
+                              ? const Dashboard()
+                              : AuthDashboard()
+              : AuthDashboard(),
+    );
+  }
+}
