@@ -20,12 +20,11 @@ import 'package:rainbow_new/utils/pref_keys.dart';
 
 import 'screens/auth/register/widget/registerVerify_controller.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
+  await Firebase.initializeApp();
   NotificationService.init();
   await FirebaseMessaging.instance.getToken().then((value) {
     if (kDebugMode) {
@@ -69,21 +68,21 @@ class MyApp extends StatelessWidget {
       ],
       // home: ScanYourFaceScreen(),
       home: /*const GoogleMapScreen()*/ /*SupportDetailsScreen(com: "")*/ !PrefService
-              .getBool(PrefKeys.skipBoardingScreen)
+          .getBool(PrefKeys.skipBoardingScreen)
           ? SplashScreen()
           : (PrefService.getBool(PrefKeys.register) ||
-                  PrefService.getBool(PrefKeys.isLogin))
-              ? PrefService.getBool(PrefKeys.showTermsCondition)
-                  ? TermsConditionsScreen(showBackBtn: false)
-                  : PrefService.getString(PrefKeys.loginRole) == "end_user"
-                      ? const Dashboard()
-                      : PrefService.getString(PrefKeys.loginRole) ==
-                              "advertisers"
-                          ? AdvertisementDashBord()
-                          : PrefService.getBool(PrefKeys.isLogin)
-                              ? const Dashboard()
-                              : AuthDashboard()
-              : AuthDashboard(),
+          PrefService.getBool(PrefKeys.isLogin))
+          ? PrefService.getBool(PrefKeys.showTermsCondition)
+          ? TermsConditionsScreen(showBackBtn: false)
+          : PrefService.getString(PrefKeys.loginRole) == "end_user"
+          ? const Dashboard()
+          : PrefService.getString(PrefKeys.loginRole) ==
+          "advertisers"
+          ? AdvertisementDashBord()
+          : PrefService.getBool(PrefKeys.isLogin)
+          ? const Dashboard()
+          : AuthDashboard()
+          : AuthDashboard(),
     );
   }
 }

@@ -34,7 +34,8 @@ data/lib/db/.flutter-plugins
 /build/
 .flutter-plugins
 .idea
-
+ios/Podfile.lock
+.dart_tool
 # Web related
 lib/generated_plugin_registrant.dart
 
