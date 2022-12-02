@@ -6,6 +6,7 @@ import 'package:rainbow_new/common/Widget/text_styles.dart';
 import 'package:rainbow_new/screens/auth/phonenumber/phonenumber_controller.dart';
 import 'package:rainbow_new/screens/auth/register/register_controller.dart';
 import 'package:rainbow_new/screens/auth/register/widget/registerVerify_controller.dart';
+import 'package:rainbow_new/utils/asset_res.dart';
 import 'package:rainbow_new/utils/color_res.dart';
 import 'package:rainbow_new/utils/strings.dart';
 
@@ -63,18 +64,21 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
                                 SizedBox(
                                   height: Get.height * 0.03,
                                 ),
-                                /*    GestureDetector(
+                                GestureDetector(
                                   onTap: () {
                                     Get.back();
                                   },
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Icon(
-                                      Icons.arrow_back_ios_outlined,
-                                      size: 16.72,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(7),
+                                    height: 30,
+                                    width: 30,
+                                    child: Image.asset(
+                                      AssetRes.backIcon,
+                                      height: 15,
                                     ),
                                   ),
-                                ),*/
+                                ),
+
                                 SizedBox(
                                   height: Get.height * 0.09,
                                 ),
@@ -192,7 +196,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
                                 SizedBox(
                                   height: Get.height * 0.022,
                                 ),
-                                InkWell(
+                               controller.seconds==0? InkWell(
                                   onTap: () {
                                     controller.startTimer();
                                     controller.phoneNumberRegister(controller
@@ -210,7 +214,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
                                       ),
                                     ),
                                   ),
-                                ),
+                                ):const SizedBox(),
                                 SizedBox(
                                   height: Get.height * 0.04,
                                 ),

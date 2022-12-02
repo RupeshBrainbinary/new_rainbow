@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -24,7 +26,22 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  await Firebase.initializeApp();
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyAHDoEBaS6zAHsNvEIvUnQI42mP6_rF10s',
+        authDomain: '',
+        databaseURL: '',
+        projectId: 'rainbow-99314',
+        storageBucket: '',
+        messagingSenderId: '115304537008',
+        appId: '1:115304537008:android:b1eb09b75b877ed5789475',
+        measurementId: '',
+      ),
+    );
+  } else if (Platform.isIOS) {
+    await Firebase.initializeApp();
+  }
   NotificationService.init();
   await FirebaseMessaging.instance.getToken().then((value) {
     if (kDebugMode) {
